@@ -1,0 +1,111 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ecedf6;
+    border-radius: 8px;
+    margin: 0 auto;
+    max-width: 500px;
+    padding: 2rem;
+    position: relative;
+    width: 90%;
+    .closeButton {
+      align-items: center;
+      background-color: #eee;
+      border-radius: 4px;
+      color: #000;
+      cursor: pointer;
+      display: flex;
+      font-size: 2.5rem;
+      justify-content: center;
+      padding: 0.5rem;
+      position: absolute;
+      right: 0;
+      top: -10px;
+      -webkit-transform: translateY(-100%);
+      transform: translateY(-100%);
+      transition: all 0.3s ease;
+      z-index: -1;
+      svg {
+        width: 25px;
+        height: 25px;
+      }
+      &:hover {
+        background-color: #e32525;
+        svg {
+          fill: #fff;
+        }
+      }
+    }
+    .input {
+      width: 100%;
+      background-color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      outline: none;
+      font-size: 16px;
+      font-weight: 700;
+      color: #646681;
+      // color: #000;
+      margin: 0px 0px 10px 0px;
+      // &::placeholder {
+      //   text-transform: uppercase;
+      //   font-weight: 600;
+      //   color: #d1d2db;
+      // }
+    }
+  }
+}
+
+.modalTitle {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: 800;
+  margin: 0px 0px 20px 0px;
+  color: #646681;
+}
+
+.modal {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  &-label {
+    &__title {
+      color: #646681;
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
+  &__select {
+    width: 100%;
+    background-color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    margin: 0px 0px 20px 0px;
+  }
+  &-buttons {
+    button {
+      margin: 0px 10px 0px 0px;
+    }
+  }
+}
