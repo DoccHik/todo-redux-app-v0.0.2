@@ -57,6 +57,7 @@ export const todoSlice = createSlice({
       const todoList = window.localStorage.getItem("todoList");
       if (todoList) {
         const todoListArr = JSON.parse(todoList);
+        // console.log("Обновление todo", action.payload);
         todoListArr.forEach((todo) => {
           if (todo.id === action.payload.id) {
             todo.status = action.payload.status;
@@ -70,9 +71,27 @@ export const todoSlice = createSlice({
     updateFilterStatus(state, action) {
       state.filterStatus = action.payload;
     },
+    addDescription(state, action) {
+      const todoList = window.localStorage.getItem("todoList");
+      if (todoList) {
+        const todoListArr = JSON.parse(todoList);
+        todoListArr.map((todo) => {
+          if (todo.id === action.payload.id) {
+            todo.description = action.payload.description;
+          }
+        });
+        window.localStorage.setItem("todoList", JSON.stringify(todoListArr));
+        state.todoList = [...todoListArr];
+      }
+    },
   },
 });
 
-export const { addTodo, deleteTodo, updateTodo, updateFilterStatus } =
-  todoSlice.actions;
+export const {
+  addTodo,
+  deleteTodo,
+  updateTodo,
+  updateFilterStatus,
+  addDescription,
+} = todoSlice.actions;
 export default todoSlice.reducer;
