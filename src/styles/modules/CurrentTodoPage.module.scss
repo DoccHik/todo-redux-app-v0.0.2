@@ -67,11 +67,16 @@
   &__options {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     &-label {
+      background-color: #646ff0;
+      border-radius: 5px;
+      padding: 10px;
       &-title {
         display: block;
         font-weight: 500;
+        color: #fff;
+        margin: 0px 0px 10px 0px;
       }
     }
   }
@@ -80,8 +85,26 @@
     font-weight: 700;
     color: #fff;
     padding: 5px 10px;
-    background-color: #646ff0;
+    background-color: transparent;
     border: none;
     border-radius: 5px;
+    outline: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .current {
+    &-todo {
+      &__options {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        button {
+          font-size: 14px;
+          padding: 5px 15px;
+          margin: 0px 0px 10px 0px;
+        }
+      }
+    }
   }
 }

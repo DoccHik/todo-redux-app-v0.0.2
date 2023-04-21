@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import styles from "../styles/modules/CurrentTodoPage.module.scss";
 import Button from "../Components/Button";
 import { motion } from "framer-motion";
-import ModalDescription from "../Components/ModalDescription";
+// import ModalDescription from "../Components/ModalDescription";
 import { toast } from "react-hot-toast";
 
 const CurrentTodoPage = ({ todoList }) => {
@@ -13,8 +13,6 @@ const CurrentTodoPage = ({ todoList }) => {
   const { id } = useParams();
   // console.log("useParams => id:", id);
 
-  // const [openDescriptionModal, setOpenDescriptionModal] = React.useState(false);
-  // const [vissbleDescription, setVissbleDescription] = React.useState(false);
   const [description, setDescription] = React.useState("");
   const [dateEnd, setDateEnd] = React.useState("");
   // console.log(dateEnd);
@@ -34,8 +32,8 @@ const CurrentTodoPage = ({ todoList }) => {
       todoListArr.map(
         (todo) => todo.id === id && (todo.description = description)
       );
-      console.log("todoList с описанием", todoListArr);
       window.localStorage.setItem("todoList", JSON.stringify(todoListArr));
+      toast.success("Заметка изменена");
     }
   };
 
@@ -76,7 +74,6 @@ const CurrentTodoPage = ({ todoList }) => {
           todo.id === id ? setDescription(todo.description) : null
         );
       }
-      // saveDescription(description);
     }
   }, []);
 
@@ -109,10 +106,6 @@ const CurrentTodoPage = ({ todoList }) => {
             onChange={handleDescription}
             placeholder="Введите описание..."
           />
-          {/* {vissbleDescription
-              ? todoListArr.map((todo) => todo.id === id && todo.description)
-              : "Нет описания"}
-            } */}
         </p>
         <div className={styles["current-todo__options"]}>
           <Button
@@ -136,15 +129,6 @@ const CurrentTodoPage = ({ todoList }) => {
           </label>
         </div>
       </div>
-      {/* {openDescriptionModal && (
-        <ModalDescription
-          description={description}
-          setDescription={setDescription}
-          todoListArr={todoListArr}
-          openDescriptionModal={openDescriptionModal}
-          setOpenDescriptionModal={setOpenDescriptionModal}
-        />
-      )} */}
     </>
   );
 };
