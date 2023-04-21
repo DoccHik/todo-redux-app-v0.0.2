@@ -4,27 +4,81 @@ import styles from "../styles/modules/CurrentTodoPage.module.scss";
 import Button from "../Components/Button";
 import { motion } from "framer-motion";
 import ModalDescription from "../Components/ModalDescription";
+import { toast } from "react-hot-toast";
 
 const CurrentTodoPage = ({ todoList }) => {
-  const [openDescriptionModal, setOpenDescriptionModal] = React.useState(false);
-  const [vissbleDescription, setVissbleDescription] = React.useState(false);
-  const [description, setDescription] = React.useState("");
+  // console.log(todoList);
 
   // Получение id с url
   const { id } = useParams();
   // console.log("useParams => id:", id);
 
+  // const [openDescriptionModal, setOpenDescriptionModal] = React.useState(false);
+  // const [vissbleDescription, setVissbleDescription] = React.useState(false);
+  const [description, setDescription] = React.useState("");
+  const [dateEnd, setDateEnd] = React.useState("");
+  // console.log(dateEnd);
+
+  // todo Добавить сохранение занчения с textarea в localStorage
+  const handleDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const saveDescription = (description) => {
+    // console.log(description);
+
+    const todoList = window.localStorage.getItem("todoList");
+
+    if (todoList) {
+      const todoListArr = JSON.parse(todoList);
+      todoListArr.map(
+        (todo) => todo.id === id && (todo.description = description)
+      );
+      console.log("todoList с описанием", todoListArr);
+      window.localStorage.setItem("todoList", JSON.stringify(todoListArr));
+    }
+  };
+
+  // Сохранение срока выполнения задачи в localStorage
+  const onChangeDateEnd = (e) => {
+    setDateEnd(e.target.value);
+  };
+
+  // todo Создать отображение срока выполнения задачи
+  const getNumberOfDays = (start, end) => {
+    const date1 = new Date(start);
+    const date2 = new Date(end);
+
+    // One day in millesecons
+    const oneDay = 1000 * 60 * 60 * 24;
+
+    // Вычисление разницы между двумя датами в миллисекундах
+    const diffInTime = date2.getTime() - date1.getTime();
+
+    // Разница между датами
+    const diffInDays = Math.round(diffInTime / oneDay);
+
+    return diffInDays;
+  };
+
+  // console.log(getNumberOfDays("4/20/2023", "4/21/2023"));
+
   const todoListArr = todoList.map((todo) => todo);
   // console.log(todoListArr);
 
+  // Сохранение описания в localStorage
   useEffect(() => {
-    todoListArr.map((todo) => {
-      if (todo.id === id) {
-        console.log(todo);
-        setVissbleDescription(true);
+    const todoList = window.localStorage.getItem("todoList");
+    if (todoList) {
+      if (todoList) {
+        const todoListArr = JSON.parse(todoList);
+        todoListArr.map((todo) =>
+          todo.id === id ? setDescription(todo.description) : null
+        );
       }
-    });
-  }, [todoList]);
+      // saveDescription(description);
+    }
+  }, []);
 
   return (
     <>
@@ -41,15 +95,48 @@ const CurrentTodoPage = ({ todoList }) => {
           {todoListArr.map((todo) => todo.id === id && todo.title)}
         </h1>
         <p className={styles["current-todo__description"]}>
-          {vissbleDescription
-            ? todoListArr.map((todo) => todo.id === id && todo.description)
-            : "Нет описания"}
+          <span className={styles["current-todo__description-title"]}>
+            Заметки
+          </span>
+          <textarea
+            className={styles["current-todo__description-textarea"]}
+            name="description"
+            id="description"
+            // cols="30"
+            // rows="10"
+            maxLength={300}
+            value={description}
+            onChange={handleDescription}
+            placeholder="Введите описание..."
+          />
+          {/* {vissbleDescription
+              ? todoListArr.map((todo) => todo.id === id && todo.description)
+              : "Нет описания"}
+            } */}
         </p>
-        <Button variant="primary" onClick={() => setOpenDescriptionModal(true)}>
-          Добавить описание
-        </Button>
+        <div className={styles["current-todo__options"]}>
+          <Button
+            variant="primary"
+            onClick={() => saveDescription(description)}
+          >
+            Сохранить
+          </Button>
+          <label className={styles["current-todo__options-label"]}>
+            <small className={styles["current-todo__options-label-title"]}>
+              Выполнить до:
+            </small>
+            <input
+              className={styles["current-todo__dateEnd"]}
+              type="date"
+              name="dateEnd"
+              id="dateEnd"
+              value={dateEnd}
+              onChange={onChangeDateEnd}
+            />
+          </label>
+        </div>
       </div>
-      {openDescriptionModal && (
+      {/* {openDescriptionModal && (
         <ModalDescription
           description={description}
           setDescription={setDescription}
@@ -57,7 +144,7 @@ const CurrentTodoPage = ({ todoList }) => {
           openDescriptionModal={openDescriptionModal}
           setOpenDescriptionModal={setOpenDescriptionModal}
         />
-      )}
+      )} */}
     </>
   );
 };
